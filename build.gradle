@@ -1,0 +1,15 @@
+apply plugin: 'scala'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.12.4'
+    compile group: 'org.apache.avro', name: 'avro', version: '1.8.2'
+    compile group: 'org.apache.avro', name: 'avro-tools', version: '1.8.2'
+    // Your other deps here
+}
+
+
+sourceSets.main.scala.srcDirs = ['.']
