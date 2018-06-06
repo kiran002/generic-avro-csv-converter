@@ -9,17 +9,16 @@ object Test {
 
     val lines = scala.io.Source.fromResource("employee.csv").getLines()
 
-    val test = new Sample[Employee]
+    val test = new GenericWriter[Employee]
     val dataFileWriter = test.getWriter()
-    dataFileWriter.create(Employee.SCHEMA$, new File("/home/kiran/Downloads/FP-Scala/week-1/Generics/src/main/resources/test2.avro"))
+    dataFileWriter.create(Employee.SCHEMA$, new File("~/test2.avro"))
     lines.foreach(line => {
       val cols = line.split(",")
 
       val ab = new Employee()
       test.fill(ab, cols)
 
-      //val abc = new Employee(cols(0), cols(1).toInt)
-        dataFileWriter.append(ab)
+      dataFileWriter.append(ab)
     })
 
 
@@ -27,7 +26,7 @@ object Test {
   }
 }
 
-class Sample[T <: SpecificRecord] {
+class GenericWriter[T <: SpecificRecord] {
 
   def getWriter(): DataFileWriter[T] = {
     new DataFileWriter[T](new SpecificDatumWriter[T])
@@ -40,6 +39,7 @@ class Sample[T <: SpecificRecord] {
       val value = s.getType match {
         case q if q == classOf[Int] => cols(field._2).toInt
         case q if q == classOf[Float] => cols(field._2).toFloat
+        case q if q == classOf[Double] => cols(field._2).toDouble
         case q if q == classOf[String] => cols(field._2)
         case q if q == classOf[CharSequence] => cols(field._2)
       }
